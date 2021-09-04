@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <title>Form validation</title>
+        <link rel="stylesheet.css" href="api.css"
+    </head>
+    <body>
+        <form id="form" >
+            <div id="error-message">
+            </div>
+            <div>
+            <input type="text" id="name" placeholder="name"/>
+            <span id="error-name"></span>
+            </div>
+            <div>
+                <input type="password" id="password" placeholder="password"/>
+                <span id="error-password"></span>
+            </div>
+            <div>
+                <input type="password" id="confirmPassword" placeholder="Confirm password"/>
+                <span id="error-confirmPassword"></span>
+            </div>
+            <div>
+                <input type="number" id="age" placeholder="Age"/>
+                <span id="error-age"></span>
+            </div>
+            <div>
+                <input type="email" id="email" placeholder="Email"/>
+                <span id="error-email"></span>
+            </div>
+            
+            <input type="submit" value="add"/>
+            <p id="demo"></p>
+        </form>
+    </body>
+    <script>
+            var result=" ";
+             var form=document.getElementById('form')
+            form.addEventListener('submit',function(e){
+            e.preventDefault() ;
+            var name_value=document.getElementById("name").value
+            var password_value=document.getElementById("password").value
+            var confirmPassword_value=document.getElementById("confirmPassword").value
+            var age_value=document.getElementById("age").value
+            var email_value=document.getElementById("email").value
+            var regx={
+                        name:/^[a-zA-Z0-9]+$/,
+                        password:/^[a-zA-Z0-9]+$/,
+                        age:/^\d{1,2}$/,
+                        email:/^[a-z0-9._%+-]+@([a-z0-9-]+\.)+[a-z]{2,4}$/
+                     }
+            if((!regx.name.test(name_value)) || (name_value==''))
+                 document.getElementById("error-name").innerHTML="Username should be alphanumeric";
+             else
+             document.getElementById("error-name").innerHTML=" ";
+               
+
+            if((!regx.name.test(password_value)) || (password_value==''))
+                 document.getElementById("error-password").innerHTML="password should be alphanumeric";
+            else
+            document.getElementById("error-password").innerHTML=" ";
+               
+
+            if(password_value!=confirmPassword_value)
+                document.getElementById("error-confirmPassword").innerHTML="password and confirm password should be same";
+            else
+            document.getElementById("error-confirmPassword").innerHTML=" ";
+            
+            if(!regx.age.test(age_value)||(age_value==""))
+               document.getElementById("error-age").innerHTML="age should be only numeric";  
+            else
+               document.getElementById("error-age").innerHTML=" "; 
+
+            if(!regx.email.test(email_value)||(email_value==""))
+               document.getElementById("error-email").innerHTML="Email should be in sometext@gmail.com";  
+            else
+               document.getElementById("error-email").innerHTML=" ";    
+           // document.getElementById("demo").innerHTML=result;s
+            
+                   
+             
+     
+            fetch("https://jsonplaceholder.typicode.com/posts",{
+                method:'POST',
+                body:JSON.stringify({
+                    name:name_value,
+                    email:email_value,
+                    age:age_value
+                }), 
+                headers:{
+                    "Content-Type":"application/json;charset=UTF-8"
+                }
+            })
+            .then(function(response){
+                return response.json()
+            })
+            .then(function(data){
+                console.log(data)
+                
+            })
+        })
+    </script>
+</html>
